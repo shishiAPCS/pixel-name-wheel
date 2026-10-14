@@ -40,7 +40,7 @@
             rosterManager:'2. 名单管理', rosterHint:'粘贴学生姓名（每行一位，或用逗号分隔）：', saveRoster:'保存名单', importHint:'也可以导入 .txt / .json 文件：',
             importFile:'选文件导入', attendanceTitle:'3. 出勤管理', allPresent:'全员到齐', historyTitle:'4. 抽选记录', undo:'撤销上一抽', reset:'本轮清零',
             badgePicked:'已点到', badgeUnpicked:'待点名',
-            arcadeBanner:'■ 牟老师街机厅 ■', topTitle:'★ 看谁中招！ ★', challengeLabel:'★ 下一位幸运儿',
+            arcadeBanner:'■ 牟老师点名机 ■', topTitle:'★ 看谁中招！ ★', challengeLabel:'★ 下一位幸运儿',
             challengeHeadline:'轮到谁啦？', challengeDesc:'转盘开转！\n钻头出击！\n谁被点中，谁登场！',
             trim:'▸ 就位 · 开转 · 点名 ◂', ornament:'◂ 街机 01 ▸', ornamentRight:'★ 一击命中 ★',
             instruction:'按下按钮 ◆ 开转点名！',
