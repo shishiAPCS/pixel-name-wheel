@@ -1,0 +1,200 @@
+/* Pixel Roster Picker v3.1 — fluid widescreen arcade cabinet, readable wheel.
+   This addon only styles the classroom view; teacher-panel stylesheet is intact. */
+:root { --arcade-pink:#ee8ccc; --arcade-yellow:#ffdf62; --arcade-teal:#85f4e2; }
+body { min-height:100dvh; height:auto; overflow-x:hidden; overflow-y:auto; }
+#classroom-view.view-container {
+    width: 97vw; max-width: none; height:96dvh; min-height:475px;
+    margin:auto; padding:clamp(5px,.8vh,13px) 0;
+    gap:clamp(8px,1.3vh,17px); justify-content:center;
+}
+#classroom-view .header-box {
+    align-self:stretch; margin:0; flex:0 0 auto; width:100%;
+    padding:clamp(8px,1.3vh,15px) clamp(13px,2vw,30px);
+    border:5px solid #080808; box-shadow:5px 5px #070707;
+}
+#classroom-view #class-title { font-size:clamp(25px,2.8vw,53px);line-height:1.05; }
+#classroom-view .stats { gap:clamp(12px,2vw,32px);font-size:clamp(16px,1.6vw,31px); }
+#classroom-view .main-area {
+    width:100%; flex:1 1 auto; min-height:0; padding:0;
+    display:flex; position:relative; justify-content:center; align-items:stretch;
+}
+#scanner-wrapper.wheel-mounted {
+    flex:1 1 100%; position:relative; width:100%;max-width:none;
+    height:100%; min-height:0; padding:clamp(5px,.75vw,12px);
+    overflow:hidden; border:5px solid #0e0815;
+    background:conic-gradient(#e9a8da 25%,#a959a6 0 50%,#e9a8da 0 75%,#a959a6 0) 0 0/24px 24px;
+    box-shadow:7px 7px 0 #070609;
+}
+.wheel-cabinet {
+    position:relative; height:100%;width:100%;min-height:0;
+    display:flex;flex-direction:column;
+    padding:clamp(6px,.7vw,12px);
+    border:5px solid #ffe2f3;outline:3px solid #482542;outline-offset:-12px;
+    background:#19121f;color:#ffeeb9;
+}
+.wheel-topline {
+    display:flex;align-items:center;justify-content:space-between;flex:0 0 auto;
+    gap:10px; padding:0 6px clamp(5px,.7vh,10px);
+    min-height:clamp(25px,4vh,45px); line-height:1;
+    font-size:clamp(22px,2.3vw,42px);letter-spacing:.04em;
+}
+.wheel-title { color:#ffe973;text-shadow:3px 3px #8b3878; }
+.wheel-status { color:var(--arcade-teal);font-size:.74em;white-space:nowrap; }
+.wheel-screen {
+    position:relative;flex:1 1 auto;min-height:0;overflow:hidden;
+    border:5px solid #80547c;box-shadow:inset 0 0 0 2px #140c21;
+    background:
+        linear-gradient(90deg,transparent 94%,#164238 94%) 0 0/47px 47px,
+        linear-gradient(transparent 94%,#164238 94%) 0 0/47px 47px,
+        radial-gradient(ellipse at 54% 50%,#153b36,#041b1b 78%);
+}
+.wheel-screen::after { content:'';position:absolute;pointer-events:none;inset:0;z-index:7;opacity:.10;background:repeating-linear-gradient(to bottom,transparent 0 3px,#000 3px 5px); }
+.wheel-scene {
+    position:relative;display:flex;width:100%;height:100%;
+    align-items:center;justify-content:center;
+    gap:clamp(12px,1.5vw,34px);padding:clamp(8px,1.6vh,20px);
+}
+.wheel-hud {
+    position:relative;flex:0 0 20%; min-width:0;max-width:none;
+    align-self:stretch;display:flex;flex-direction:column;justify-content:center;gap:clamp(8px,1.5vh,22px);
+    color:#d6fff0;pointer-events:none;
+}
+.hud-banner {align-self:flex-start;padding:4px 10px;background:#392741;color:#ffe891;border:3px solid #cc81bc;font-size:clamp(20px,1.7vw,33px);}
+.hud-card {padding:clamp(10px,1.2vw,24px);border:4px solid #528b80;background:#071d20e8;box-shadow:6px 6px #04090b;}
+/* Winner replaces the challenge text; the HUD keeps its dimensions. */
+.wheel-hud.hud-winner .hud-card {visibility:hidden;}
+.hud-label {color:#93f6df;font-size:clamp(20px,1.8vw,34px);}
+.hud-headline {margin:12px 0;color:#ffdf6a;font-size:clamp(31px,3vw,58px);line-height:1.05;}
+.hud-desc {color:#f1dbac;font-size:clamp(20px,1.4vw,28px);line-height:1.15;}
+.hud-trim {letter-spacing:.18em;color:#85dcc6;font-size:clamp(16px,1.4vw,26px);}
+.wheel-disc {
+    position:relative;flex:0 0 auto;width:420px;height:auto;aspect-ratio:1;
+    border-radius:50%;background:#05090b;will-change:transform;
+    box-shadow:0 0 0 4px #141820,0 0 0 9px #fbd05b,0 0 0 14px #11161b,12px 14px 0 13px #0206089c;
+}
+.wheel-rotor,#wheel-svg {display:block;width:100%;height:100%;border-radius:50%;}
+.wheel-rotor {transform-origin:50% 50%;will-change:transform;}
+.wheel-hub {position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none;color:#ffeda0;font-size:clamp(18px,2vw,38px);text-shadow:2px 2px #6b3a2d;}
+.drill-unit {position:relative;flex:0 0 auto;z-index:3;width:clamp(92px,13vw,400px);filter:drop-shadow(7px 7px 0 #000a);}
+.drill-svg {display:block;width:100%;height:auto;image-rendering:pixelated;}
+.drill-fire {animation:drill-punch 520ms steps(6,end) both;}
+/* Strike the actual disk edge and HOLD the position until the next spin. */
+@keyframes drill-punch {
+    0% {transform:translateX(0)}
+    23% {transform:translateX(calc(var(--drill-contact, -27px) - 6px))}
+    43% {transform:translateX(var(--drill-contact, -27px))}
+    60% {transform:translateX(calc(var(--drill-contact, -27px) + 4px))}
+    78%,100% {transform:translateX(var(--drill-contact, -27px))}
+}
+.wheel-spark {display:none;position:absolute;z-index:6;transform:translate(-50%,-50%);pointer-events:none;font-size:clamp(42px,4.5vw,82px);color:#fff4a0;text-shadow:5px 4px #ed5192;line-height:1;}
+.wheel-spark.spark-fire {display:block;animation:wheel-impact 460ms steps(4,end) both;}
+@keyframes wheel-impact {0%{opacity:0;scale:.4;rotate:-20deg}25%,65%{opacity:1;scale:1.15;rotate:15deg}100%{opacity:0;scale:1.8;rotate:-15deg}}
+.wheel-scene.shake {animation:arcade-shake 210ms steps(4,end);}
+@keyframes arcade-shake {0%,100%{translate:0 0}25%{translate:-4px 3px}50%{translate:4px -3px}75%{translate:-3px -2px}}
+/* The highlighted wedge is both visually striking and high contrast. */
+#wheel-svg .wheel-hit .name-sector {fill:#ffe17b;stroke:#fff1b8;stroke-width:2;}
+#wheel-svg .wheel-hit .name-label {fill:#86154b;stroke:#fff3c2;stroke-width:3.6;}
+.wheel-instruction {flex:0 0 auto;min-height:24px;display:flex;justify-content:center;align-items:center;gap:10px;padding-top:clamp(5px,.7vh,9px);font-size:clamp(18px,1.7vw,32px);color:#ffefa8;line-height:1;letter-spacing:.07em;text-align:center;}
+.wheel-instruction span {color:#ee80bf;}
+.wheel-ornament {position:absolute;left:14px;bottom:12px;pointer-events:none;color:#68c9ae;font-size:clamp(15px,1.2vw,23px);opacity:.75;letter-spacing:2px;}
+.wheel-ornament-right {left:auto;right:15px;top:12px;bottom:auto;color:#dcb8e6;}
+#classroom-view #reveal-area {position:absolute;z-index:8;bottom:clamp(12px,2.5vh,27px);left:50%;transform:translateX(-50%);width:min(88%,800px);min-width:0;max-width:none;margin:0;padding:10px 16px;background:#ffeba9;border:5px solid #30152f;box-shadow:5px 5px 0 #080708;overflow-wrap:anywhere;}
+#classroom-view #reveal-message {font-size:clamp(18px,1.7vw,32px);color:#654054;line-height:1.04;margin-bottom:1px;animation:none;}
+#classroom-view #reveal-name {font-size:clamp(39px,4.2vw,76px);color:#a01b76;line-height:1;text-transform:uppercase;}
+#classroom-view #reveal-area.reveal-side {bottom:auto;min-width:0;max-width:none;transform:translateY(-50%);padding:clamp(10px,1.3vw,23px);border-width:4px;text-align:left;box-shadow:6px 6px #090609;display:flex;flex-direction:column;justify-content:center;}
+#classroom-view #reveal-area.reveal-side #reveal-name {font-size:clamp(33px,3vw,62px);}
+#classroom-view #reveal-area.reveal-side #reveal-message {font-size:clamp(18px,1.8vw,32px);}
+#classroom-view footer {width:100%;padding:0;align-self:center;display:flex;align-items:center;justify-content:space-between;gap:16px;flex:0 0 auto;}
+#classroom-view footer .rpg-btn {border:4px solid #080709;box-shadow:4px 4px #050505;font-size:clamp(20px,1.9vw,35px);padding:clamp(7px,.7vw,13px) clamp(11px,1.4vw,27px);line-height:1.05;white-space:nowrap;}
+#classroom-view #btn-start {font-size:clamp(24px,2.4vw,46px);padding:clamp(7px,.8vw,15px) clamp(15px,2.5vw,50px);}
+.wheel-controls {display:flex;align-items:center;gap:clamp(8px,1vw,18px);}
+#classroom-view footer .sound-btn {background:#24192a;color:#fff0b0;font-size:clamp(18px,1.5vw,29px);}
+#classroom-view footer .sound-btn[aria-pressed="false"] {background:#47414a;color:#d0cad0;}
+#classroom-view #btn-start:disabled,#classroom-view #btn-open-panel:disabled {opacity:.7;cursor:wait;}
+/* On laptop/narrow windows, remove the auxiliary arcade HUD and keep the disk readable. */
+@media (max-width:920px) {
+    #classroom-view.view-container {width:97vw;gap:9px;}
+    .wheel-hud {display:none;}
+    .wheel-scene {gap:clamp(3px,1.5vw,15px);padding:8px;}
+    #classroom-view .header-box {padding:7px 12px;border-width:4px;}
+    #classroom-view #class-title {font-size:clamp(26px,3.7vw,37px);}
+    #classroom-view .stats {font-size:clamp(15px,2.5vw,21px);}
+    #scanner-wrapper.wheel-mounted {padding:6px;border-width:4px;}
+    .wheel-cabinet {padding:7px;border-width:4px;}
+    .wheel-screen {border-width:3px;}
+    .wheel-topline {min-height:27px;font-size:clamp(22px,3vw,29px);}
+    .wheel-instruction {font-size:clamp(16px,2.3vw,22px);}
+    #classroom-view #reveal-area {width:90%;}
+}
+@media (max-width:570px) {
+    #classroom-view.view-container {height:auto;min-height:0;width:97vw;gap:13px;padding:10px 0 20px;justify-content:flex-start;}
+    #classroom-view .stats {flex-direction:column;gap:0;font-size:clamp(14px,3.5vw,19px);}
+    #classroom-view #class-title {font-size:clamp(24px,5vw,35px);}
+    #classroom-view .main-area {height:auto;min-height:0;flex:0 0 auto;}
+    #scanner-wrapper.wheel-mounted {height:clamp(360px,103vw,550px);min-height:0;}
+    .wheel-scene {gap:5px;padding:4px;}
+    .drill-unit {width:clamp(65px,19vw,120px);}
+    .wheel-cabinet {padding:5px;border-width:3px;}
+    .wheel-topline {font-size:clamp(18px,5vw,24px);min-height:28px;}
+    .wheel-status {font-size:.68em;}
+    .wheel-instruction {font-size:clamp(14px,3.6vw,20px);letter-spacing:0;}
+    .wheel-ornament {display:none;}
+    #classroom-view #reveal-area {width:94%;padding:7px 9px;bottom:9px;border-width:4px;}
+    #classroom-view #reveal-name {font-size:clamp(32px,7vw,44px);}
+    #classroom-view #reveal-message {font-size:clamp(15px,3.6vw,22px);}
+    #classroom-view footer {gap:6px;}
+    #classroom-view #btn-start {font-size:clamp(21px,5vw,27px);padding:8px;}
+    #classroom-view footer .rpg-btn {border-width:3px;font-size:clamp(15px,3.6vw,22px);padding:7px 6px;}
+    .wheel-controls {gap:6px;}
+    #classroom-view footer .sound-btn {font-size:clamp(15px,3.4vw,19px);}
+}
+@media (max-height:530px) and (min-width:571px) {
+    #classroom-view.view-container {min-height:0;height:96dvh;gap:6px;}
+    #classroom-view .header-box {padding:5px 14px;}
+    .wheel-topline {min-height:24px;font-size:23px;}
+    .wheel-instruction {min-height:18px;font-size:18px;}
+    #classroom-view #btn-start {padding:5px 12px;}
+}
+@media (prefers-reduced-motion:reduce){.drill-fire,.spark-fire,.wheel-scene.shake{animation-duration:100ms;}}
+
+/* v3.2 — localization only: retain the v3.1 geometry and animations. */
+html[lang="zh-CN"] body,
+html[lang="zh-CN"] .rpg-btn,
+html[lang="zh-CN"] .rpg-input,
+html[lang="zh-CN"] select,
+html[lang="zh-CN"] textarea {
+    font-family: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans CJK SC", sans-serif;
+}
+/* Preserve the arcade pixel typeface for numerical / English-style decorations. */
+html[lang="zh-CN"] #class-title {letter-spacing:.06em;}
+html[lang="zh-CN"] .wheel-title,
+html[lang="zh-CN"] .wheel-status,
+html[lang="zh-CN"] .wheel-topline,
+html[lang="zh-CN"] .wheel-hud,
+html[lang="zh-CN"] .wheel-instruction,
+html[lang="zh-CN"] .wheel-ornament,
+html[lang="zh-CN"] #reveal-area {letter-spacing:0;}
+html[lang="zh-CN"] .hud-banner {font-size:clamp(16px,1.35vw,25px);white-space:nowrap;}
+html[lang="zh-CN"] .hud-label {font-size:clamp(17px,1.38vw,26px);}
+html[lang="zh-CN"] .hud-headline {font-size:clamp(24px,2.3vw,44px);}
+html[lang="zh-CN"] .hud-desc {font-size:clamp(16px,1.2vw,24px);line-height:1.55;}
+html[lang="zh-CN"] .hud-trim {letter-spacing:.08em;font-size:clamp(14px,1.2vw,22px);}
+html[lang="zh-CN"] #classroom-view #reveal-area.reveal-side #reveal-message {font-size:clamp(16px,1.35vw,26px);line-height:1.35;}
+html[lang="zh-CN"] #classroom-view #reveal-area.reveal-side #reveal-name {font-size:clamp(28px,2.6vw,54px);}
+html[lang="zh-CN"] .wheel-instruction {font-size:clamp(16px,1.36vw,27px);}
+html[lang="zh-CN"] .wheel-topline {font-size:clamp(20px,1.9vw,37px);}
+html[lang="zh-CN"] #classroom-view #btn-start {font-size:clamp(20px,2vw,37px);}
+html[lang="zh-CN"] .panel-header,html[lang="zh-CN"] .panel-section h3 {letter-spacing:0;}
+#classroom-view footer .lang-btn {background:#3a2847;color:#ffe9ab;font-size:clamp(16px,1.45vw,28px);}
+#classroom-view footer .lang-btn:focus-visible {outline:3px solid #82f4e4;outline-offset:3px;}
+@media(max-width:570px){
+    #classroom-view footer .lang-btn {font-size:clamp(13px,3vw,18px);}
+    #classroom-view footer .sound-btn {font-size:clamp(13px,3vw,18px);}
+    html[lang="zh-CN"] .wheel-instruction {font-size:clamp(13px,3.2vw,18px);}
+    html[lang="zh-CN"] #classroom-view #btn-start {font-size:clamp(17px,4vw,24px);}
+}
+
+/* A localized button replaces browser-controlled English "Choose File" text.
+   The actual input and its existing import handler stay unchanged. */
+#file-import.file-input-hidden {position:absolute!important;width:1px!important;height:1px!important;opacity:0!important;overflow:hidden!important;padding:0!important;border:0!important;clip-path:inset(50%);}
+#btn-import-file {align-self:flex-start;}

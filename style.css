@@ -1,0 +1,327 @@
+/* ========================================== */
+/* GLOBAL RESET & VARIABLES                   */
+/* ========================================== */
+:root {
+    --bg-color: #2b2b2b;
+    --panel-bg: #e8e8e8;
+    --text-color: #111;
+    --border-color: #000;
+    --primary-color: #4a90e2;
+    --danger-color: #e24a4a;
+    --highlight-bg: rgba(255, 215, 0, 0.4);
+    --scanner-bg: #0a0a0a;
+    --scanner-text: #00ff41;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'VT323', 'Courier New', Courier, monospace;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.hidden { display: none !important; }
+.active { display: flex !important; }
+
+.view-container {
+    width: 95vw;
+    height: 95vh;
+    max-width: 1200px;
+    display: flex;
+    flex-direction: column;
+}
+
+/* ========================================== */
+/* RETRO RPG UI ELEMENTS                      */
+/* ========================================== */
+.rpg-box {
+    background-color: var(--panel-bg);
+    border: 6px solid var(--border-color);
+    box-shadow: 6px 6px 0px rgba(0,0,0,0.5);
+    padding: 20px;
+    border-radius: 2px;
+}
+
+.rpg-btn {
+    font-family: 'VT323', monospace;
+    font-size: 1.5rem;
+    padding: 10px 20px;
+    border: 4px solid var(--border-color);
+    background-color: #fff;
+    cursor: pointer;
+    box-shadow: 4px 4px 0px var(--border-color);
+    transition: transform 0.1s, box-shadow 0.1s;
+    text-transform: uppercase;
+}
+
+.rpg-btn:active {
+    transform: translate(4px, 4px);
+    box-shadow: 0px 0px 0px var(--border-color);
+}
+
+.btn-primary { background-color: var(--primary-color); color: white; }
+.btn-secondary { background-color: #ddd; }
+.btn-danger { background-color: var(--danger-color); color: white; }
+
+.rpg-input {
+    font-family: 'VT323', monospace;
+    font-size: 1.2rem;
+    border: 4px solid var(--border-color);
+    padding: 8px;
+    width: 100%;
+    background: #fff;
+}
+
+/* ========================================== */
+/* CLASSROOM VIEW                             */
+/* ========================================== */
+#classroom-view {
+    justify-content: space-between;
+}
+
+.header-box {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+#class-title {
+    font-size: 3rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.stats {
+    font-size: 1.8rem;
+    display: flex;
+    gap: 20px;
+}
+
+.main-area {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+/* ROSTER SCANNER */
+
+.scanner-box {
+    width: 100%;
+    max-width: none;
+    height: 288px; /* Fits exactly 3 items of 96px */
+    background-color: var(--scanner-bg);
+    position: relative;
+    overflow: hidden;
+    padding: 0;
+}
+
+#scanner-highlight {
+    position: absolute;
+    top: 96px; /* Middle row */
+    left: 0;
+    width: 100%;
+    height: 96px;
+    background-color: var(--highlight-bg);
+    border-top: 4px solid #ffd700;
+    border-bottom: 4px solid #ffd700;
+    z-index: 5;
+    pointer-events: none;
+}
+
+#scanner-list {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    /* Transition applied dynamically in JS */
+}
+
+.scanner-item {
+    height: 96px;
+    line-height: 96px;
+    text-align: center;
+    font-size: 4.2rem;
+    color: var(--scanner-text);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+/* REVEAL AREA */
+#reveal-area {
+    margin-top: 36px;
+    text-align: center;
+    background-color: var(--panel-bg);
+    padding: 28px 48px;
+    border: 6px solid var(--border-color);
+    box-shadow: 6px 6px 0px #000;
+    width: 52%;
+    min-width: 420px;
+    max-width: 680px;
+}
+
+#reveal-message {
+    font-size: 1.5rem;
+    color: #555;
+    margin-bottom: 10px;
+}
+
+#reveal-name {
+    font-size: 5.2rem;
+    color: var(--primary-color);
+    text-transform: uppercase;
+    line-height: 1;
+    word-break: break-word;
+}
+
+.blink {
+    animation: blinker 1s linear infinite;
+}
+
+@keyframes blinker {
+    50% { opacity: 0; }
+}
+
+#classroom-view footer {
+    display: flex;
+    justify-content: space-between;
+    padding-top: 20px;
+}
+
+#btn-start {
+    font-size: 2.5rem;
+    padding: 15px 40px;
+}
+
+/* ========================================== */
+/* TEACHER PANEL                              */
+/* ========================================== */
+#teacher-panel {
+    background-color: #333;
+    padding: 20px;
+    overflow-y: auto;
+}
+
+.panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: white;
+    margin-bottom: 20px;
+    font-size: 2rem;
+}
+
+.panel-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    flex-grow: 1;
+}
+
+.panel-section {
+    display: flex;
+    flex-direction: column;
+}
+
+.panel-section h3 {
+    margin-bottom: 15px;
+    font-size: 1.8rem;
+    border-bottom: 4px solid var(--border-color);
+    padding-bottom: 5px;
+}
+
+.control-group {
+    margin-bottom: 15px;
+}
+
+.action-row {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.help-text {
+    font-size: 1.1rem;
+    margin-bottom: 5px;
+}
+
+.scrollable-list {
+    flex-grow: 1;
+    overflow-y: auto;
+    border: 4px solid var(--border-color);
+    background: #fff;
+    padding: 10px;
+    font-size: 1.5rem;
+    max-height: 250px;
+}
+
+.text-list {
+    list-style-type: square;
+    padding-left: 30px;
+}
+
+.text-list li {
+    margin-bottom: 5px;
+}
+
+.attendance-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 8px;
+    border-bottom: 2px dashed #ccc;
+    padding-bottom: 4px;
+}
+
+.attendance-item label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+}
+
+.status-badge {
+    font-size: 1rem;
+    padding: 2px 6px;
+    border-radius: 4px;
+    color: white;
+}
+
+.status-picked { background: var(--primary-color); }
+.status-unpicked { background: #888; }
+
+/* Responsive adjustments */
+@media (max-width: 800px) {
+    #reveal-area {
+        width: 100%;
+        min-width: 0;
+    }
+
+    #reveal-name {
+        font-size: 4rem;
+    }
+    .panel-grid {
+        grid-template-columns: 1fr;
+    }
+    .stats {
+        flex-direction: column;
+        gap: 5px;
+        font-size: 1.4rem;
+    }
+    .scanner-box {
+        width: 100%;
+    }
+}

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>牟老师点名转盘</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- The original font and app remain unchanged. -->
+    <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+    <!-- Wheel upgrade: load AFTER the existing stylesheet -->
+    <link rel="stylesheet" href="wheel.css">
+</head>
+<body>
+    <!-- ========================================== -->
+    <!-- CLASSROOM VIEW (Student Facing)            -->
+    <!-- ========================================== -->
+    <div id="classroom-view" class="view-container active">
+        <header class="rpg-box header-box">
+            <h1 id="class-title">LOADING...</h1>
+            <div class="stats">
+                <span><span id="label-remaining">Remaining:</span> <span id="stat-remaining">0</span></span>
+                <span><span id="label-picked">Picked:</span> <span id="stat-picked">0</span></span>
+            </div>
+        </header>
+        <main class="main-area">
+            <!-- The original scanner container becomes the pixel wheel. -->
+            <div id="scanner-wrapper" class="rpg-box scanner-box">
+                <div id="scanner-highlight"></div>
+                <div id="scanner-list">
+                    <!-- Names injected here via JS -->
+                </div>
+            </div>
+            <!-- Reveal Message (Hidden during idle/spinning) -->
+            <div id="reveal-area" class="hidden" aria-live="polite">
+                <h2 id="reveal-message" class="blink"></h2>
+                <h3 id="reveal-name"></h3>
+            </div>
+        </main>
+
+        <footer>
+            <button id="btn-start" class="btn-primary rpg-btn">SPIN THE WHEEL</button>
+            <div class="wheel-controls">
+                <button id="btn-lang" class="rpg-btn lang-btn" type="button" aria-label="Switch language" title="Switch language">ENGLISH</button>
+                <button id="btn-sound" class="rpg-btn sound-btn" type="button" aria-label="Mute sound effects" aria-pressed="true" title="Toggle arcade sound effects">♪ SOUND ON</button>
+                <button id="btn-open-panel" class="btn-secondary rpg-btn">Teacher Panel</button>
+            </div>
+        </footer>
+    </div>
+    <!-- ========================================== -->
+    <!-- TEACHER PANEL (Hidden by default)          -->
+    <!-- ========================================== -->
+    <div id="teacher-panel" class="view-container hidden">
+        <div class="panel-header">
+            <h2>TEACHER TERMINAL</h2>
+            <button id="btn-close-panel" class="btn-danger rpg-btn">Close [X]</button>
+        </div>
+        <div class="panel-grid">
+
+            <!-- Class Management -->
+            <div class="panel-section rpg-box">
+                <h3>1. Class Management</h3>
+                <div class="control-group">
+                    <label for="class-select">Select Class:</label>
+                    <select id="class-select" class="rpg-input"></select>
+                </div>
+                <div class="control-group action-row">
+                    <button id="btn-new-class" class="btn-secondary rpg-btn">New Class</button>
+                    <button id="btn-rename-class" class="btn-secondary rpg-btn">Rename</button>
+                    <button id="btn-delete-class" class="btn-danger rpg-btn">Delete</button>
+                </div>
+            </div>
+            <!-- Student List Input & Import -->
+            <div class="panel-section rpg-box">
+                <h3>2. Roster Setup</h3>
+                <p class="help-text">Paste names (one per line or comma-separated):</p>
+                <textarea id="roster-input" class="rpg-input" rows="5"></textarea>
+                <div class="action-row">
+                    <button id="btn-save-roster" class="btn-primary rpg-btn">Save Roster</button>
+                </div>
+                <hr>
+                <p class="help-text">Or import .txt / .json file:</p>
+                <input type="file" id="file-import" accept=".txt,.json" class="rpg-input file-input-hidden" aria-label="Import roster file">
+                <button type="button" id="btn-import-file" class="btn-secondary rpg-btn">Choose File</button>
+            </div>
+            <!-- Attendance Management -->
+            <div class="panel-section rpg-box">
+                <h3>3. Attendance</h3>
+                <div class="action-row" style="margin-bottom: 10px;">
+                    <button id="btn-clear-absences" class="btn-secondary rpg-btn">Mark All Present</button>
+                </div>
+                <div id="attendance-list" class="scrollable-list">
+                    <!-- Checkboxes injected via JS -->
+                </div>
+            </div>
+            <!-- Picked History -->
+            <div class="panel-section rpg-box">
+                <h3>4. Picked History</h3>
+                <div class="action-row" style="margin-bottom: 10px;">
+                    <button id="btn-undo-pick" class="btn-secondary rpg-btn">Undo Last Pick</button>
+                    <button id="btn-reset-picks" class="btn-danger rpg-btn">Reset All</button>
+                </div>
+                <ul id="history-list" class="scrollable-list text-list">
+                    <!-- History items injected via JS -->
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+    <!-- Wheel upgrade: load AFTER app.js to keep its roster logic intact -->
+    <script src="wheel.js"></script>
+</body>
+</html>
